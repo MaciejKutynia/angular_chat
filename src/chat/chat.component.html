@@ -1,0 +1,51 @@
+<chat-modal [isVisible]="modalOpen" (onClose)="handleModalVisible($event)">
+  <form [formGroup]="newUser" class="flex flex-col items-center p-2 pb-6" (ngSubmit)="createUser()">
+    <fieldset class="flex flex-col items-center gap-2">
+      <label for="name">Nazwa użytkownika</label>
+      <input type="text" name="name" id="name" formControlName="name"
+             class="border border-black rounded-md h-8 p-2 outline-none min-h-[2.5rem]"/>
+    </fieldset>
+    <button type="submit" class="p-2 border border-black rounded-md w-full mt-4">Dodaj</button>
+  </form>
+</chat-modal>
+<header class="h-[5rem] border-bottom-1 border border-black w-full flex items-center px-4">
+  <button (click)="handleBackToList()">
+    <img src="assets/images/back.svg" alt="go back" class="h-[36px]"/>
+  </button>
+  <p class="flex-1 text-center text-3xl font-semibold">{{ chatData?.name }}</p>
+  <button (click)="logout()">
+    <img src="assets/images/logout.svg" class="h-[36px]"/>
+  </button>
+</header>
+<main class="wrapper">
+  <section class="messages">
+    <div *ngFor="let message of messages" [ngClass]="message.user_index ? 'ml-auto' : ''"
+         class="md:w-[25rem] min-h-[15rem] w-[85%] mb-4">
+      <p [ngClass]="message.user_index ? 'bg-gray-400 first':'bg-gray-300 second'"
+         class="w-full min-h-[13rem] block rounded-lg px-4 py-2 message relative break-words">{{ message.content }}</p>
+      <p class="flex gap-2 justify-between text-xs px-4 mt-2 text-gray-400">
+        <span>{{ message.user_name }}</span>
+        <span>{{ message.date }}</span>
+      </p>
+    </div>
+  </section>
+  <ul class="absolute bottom-[6.5rem] pl-4 flex gap-2">
+    <li *ngFor="let user of users" [ngClass]="selectedUser?.id === user.id ? 'bg-black text-white':''"
+        class="rounded-full border border-black w-[30px] h-[30px] flex items-center justify-center text-xl font-semibold cursor-pointer"
+        (click)="handleSelectUser(user.id)" [title]="user.name">
+      {{ user.name[0] }}
+    </li>
+
+    <li *ngIf="users.length < 2"
+        class="rounded-full border border-black w-[30px] h-[30px] flex items-center justify-center text-xl font-semibold cursor-pointer"
+        (click)="handleModalVisible(true)">+
+    </li>
+  </ul>
+  <form (ngSubmit)="submit()" [formGroup]="newMessage"
+        class="w-full h-[6rem] border border-t-black absolute bottom-0 flex p-2 gap-2">
+    <textarea class="flex-1 border rounded-lg border-black p-2 resize-none" formControlName="content"></textarea>
+    <button class="w-[10%] md:w-[3%]">
+      <img src="assets/images/send.svg" alt="send icon" class="h-[36px]"/>
+    </button>
+  </form>
+</main>

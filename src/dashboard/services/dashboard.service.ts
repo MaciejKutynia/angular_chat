@@ -17,4 +17,12 @@ export class DashboardService {
       Authorization: `Bearer ${token}`
       }}).pipe(map(res => res))
   }
+
+  createNewChat(name: string): Observable<ChatItem> {
+    const token = localStorage.getItem("token");
+    const url = 'http://localhost:8000/chats'
+    return this.http.post<ChatItem>(url, {name}, {headers: {
+        Authorization: `Bearer ${token}`
+      }}).pipe(map(res => res))
+  }
 }
