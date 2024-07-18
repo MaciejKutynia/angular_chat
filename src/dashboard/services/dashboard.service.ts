@@ -12,17 +12,21 @@ export class DashboardService {
 
   getChats(): Observable<ChatItem[]> {
     const token = localStorage.getItem("token");
-    const url = 'http://localhost:8000/chats'
-    return this.http.get<ChatItem[]>(url, {headers: {
-      Authorization: `Bearer ${token}`
-      }}).pipe(map(res => res))
+    const url = 'http://217.182.75.24:8000/chats'
+    return this.http.get<ChatItem[]>(url, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).pipe(map(res => res))
   }
 
   createNewChat(name: string): Observable<ChatItem> {
     const token = localStorage.getItem("token");
-    const url = 'http://localhost:8000/chats'
-    return this.http.post<ChatItem>(url, {name}, {headers: {
+    const url = 'http://217.182.75.24:8000/chats'
+    return this.http.post<ChatItem>(url, {name}, {
+      headers: {
         Authorization: `Bearer ${token}`
-      }}).pipe(map(res => res))
+      }
+    }).pipe(map(res => res))
   }
 }

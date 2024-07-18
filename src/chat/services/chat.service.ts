@@ -23,33 +23,33 @@ export class ChatService {
   }
 
   getMessages(url_key: string): Observable<MessageItemInterface[]> {
-    const url = `http://localhost:8000/message/${url_key}`
+    const url = `http://217.182.75.24:8000/message/${url_key}`
     return this.http.get<MessageItemInterface[]>(url, {
       headers: this.headers
     }).pipe(map(res => res))
   }
 
   getUsers(url_key: string): Observable<UserItemInterface[]> {
-    const url = `http://localhost:8000/user/${url_key}`
+    const url = `http://217.182.75.24:8000/user/${url_key}`
     return this.http.get<UserItemInterface[]>(url, {
       headers: this.headers
     }).pipe(map(res => res))
   }
 
   getChatData(url_key: string): Observable<ChatItem> {
-    const url = `http://localhost:8000/chats/${url_key}`
+    const url = `http://217.182.75.24:8000/chats/${url_key}`
     return this.http.get<ChatItem>(url, {headers: this.headers}).pipe(map(res => res))
   }
 
   createNewUser(newUserData: NewUserInterface): Observable<UserItemInterface> {
-    const url = `http://localhost:8000/user`
+    const url = `http://217.182.75.24:8000/user`
     return this.http.post<UserItemInterface>(url, newUserData, {
       headers: this.headers
     }).pipe(map(res => res))
   }
 
   createNewMessage(newMessage: NewMessageInterface): Observable<MessageItemInterface> {
-    const url = `http://localhost:8000/message`
+    const url = `http://217.182.75.24:8000/message`
     return this.http.post<MessageItemInterface>(url, newMessage, {
       headers: this.headers
     }).pipe(map(res => res))
