@@ -1,4 +1,4 @@
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {DashboardService} from "./services/dashboard.service";
 import {Router} from "@angular/router";
 import {ChatItem} from "./interfaces/chat.interface";
@@ -16,7 +16,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/
     ReactiveFormsModule
   ]
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
 
   newChat: FormGroup
 
@@ -33,10 +33,6 @@ export class DashboardComponent {
     this.getChats()
   }
 
-  logout() {
-    localStorage.removeItem('token')
-    this.router.navigate(['login'])
-  }
 
   handleModalVisible(isVisible: boolean) {
     this.modalOpen = isVisible
@@ -54,9 +50,6 @@ export class DashboardComponent {
 
   async submit() {
     this.dashboardService.createNewChat(this.newChat.value.name).subscribe(res => {
-      console.log(123)
     })
   }
-
-  protected readonly event = event;
 }

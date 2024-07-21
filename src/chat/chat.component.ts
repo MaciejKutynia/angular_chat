@@ -1,4 +1,4 @@
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ModalComponent} from "../components/Modal/modal.component";
 import {CommonModule} from "@angular/common";
@@ -6,6 +6,9 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ChatService} from "./services/chat.service";
 import {MessageItemInterface, UserItemInterface} from "./interfaces/chat.interface";
 import {ChatItem} from "../dashboard/interfaces/chat.interface";
+import {Store} from "@ngrx/store";
+import {selectChatData} from "../app/store/reducers";
+import {appActions} from "../app/store/actions";
 
 @Component({
   imports: [ReactiveFormsModule, ModalComponent, CommonModule],
@@ -13,7 +16,7 @@ import {ChatItem} from "../dashboard/interfaces/chat.interface";
   standalone: true,
   templateUrl: './chat.component.html'
 })
-export class ChatComponent {
+export class ChatComponent implements OnInit {
 
   newMessage: FormGroup;
   newUser: FormGroup;
@@ -29,7 +32,7 @@ export class ChatComponent {
 
   modalOpen = false;
 
-  constructor(private fb: FormBuilder, private route: ActivatedRoute, private chatService: ChatService, private router: Router) {
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private chatService: ChatService, private router: Router, private store: Store) {
     this.newMessage = this.fb.group({
       content: ['', Validators.required],
     })
@@ -47,9 +50,6 @@ export class ChatComponent {
     this.selectedUser = this.users.find(user => user.id === id) || null
   }
 
-  handleBackToList() {
-    this.router.navigate([''])
-  }
 
   async submit() {
     if (!this.selectedUser) return;
@@ -92,23 +92,22 @@ export class ChatComponent {
   }
 
   async getChat() {
-    this.chatService.getChatData(this.url_key).subscribe(res => {
+    this.store.dispatch(appActions.getChatData({url_key: this.url_key}))
+    this.chatService.getChatData({url_key: this.url_key}).subscribe(res => {
       this.chatData = res;
     })
-  }
-
-  logout() {
-    localStorage.removeItem('token')
-    this.router.navigate(['login'])
   }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.url_key = params.get('id')!
     })
-    this.getChat()
-    this.getUsers()
-    this.getMessages()
+    this.getChat().then(() => {
+      this.getUsers().then((res) => {
+        this.getMessages()
+      })
+    })
+
 
   }
 }

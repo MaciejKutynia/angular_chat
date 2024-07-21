@@ -1,8 +1,3 @@
-<header class="h-[5rem] border-bottom-1 border border-black w-full flex items-center justify-end px-4">
-  <button (click)="logout()">
-    <img src="assets/images/logout.svg" class="h-[36px]"/>
-  </button>
-</header>
 <main class="wrapper p-4">
   <chat-modal [isVisible]="modalOpen" (onClose)="handleModalVisible($event)">
     <form [formGroup]="newChat" class="flex flex-col items-center p-2 pb-6" (ngSubmit)="submit()">

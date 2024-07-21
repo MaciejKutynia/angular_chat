@@ -1,1 +1,10 @@
+<header *ngIf="isToken$|async" class="h-[5rem] border-bottom-1 border border-black w-full flex items-center px-4">
+  <button *ngIf="!isRoot" (click)="handleBackToList()">
+    <img src="assets/images/back.svg" alt="go back" class="h-[36px]"/>
+  </button>
+  <p *ngIf="chatData$ | async as chatData" class="flex-1 text-center text-3xl font-semibold">{{ chatData?.name }}</p>
+  <button (click)="logout()" class="flex justify-end" [ngClass]="isRoot ? 'flex-1' : ''">
+    <img src="assets/images/logout.svg" class="h-[36px]"/>
+  </button>
+</header>
 <router-outlet/>

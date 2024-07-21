@@ -8,15 +8,7 @@
     <button type="submit" class="p-2 border border-black rounded-md w-full mt-4">Dodaj</button>
   </form>
 </chat-modal>
-<header class="h-[5rem] border-bottom-1 border border-black w-full flex items-center px-4">
-  <button (click)="handleBackToList()">
-    <img src="assets/images/back.svg" alt="go back" class="h-[36px]"/>
-  </button>
-  <p class="flex-1 text-center text-3xl font-semibold">{{ chatData?.name }}</p>
-  <button (click)="logout()">
-    <img src="assets/images/logout.svg" class="h-[36px]"/>
-  </button>
-</header>
+
 <main class="wrapper">
   <section class="messages">
     <div *ngFor="let message of messages" [ngClass]="message.user_index ? 'ml-auto' : ''"

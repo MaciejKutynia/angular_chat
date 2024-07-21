@@ -8,50 +8,44 @@ import {
   NewUserInterface,
   UserItemInterface
 } from "../interfaces/chat.interface";
+import {CHATS_URL, MESSAGES_URL, USERS_URL, headers} from "../../utils";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
-  token: string | null = localStorage.getItem("token");
-
-  headers = {
-    Authorization: `Bearer ${this.token}`
-  }
 
   constructor(private http: HttpClient) {
   }
 
   getMessages(url_key: string): Observable<MessageItemInterface[]> {
-    const url = `http://217.182.75.24:8000/message/${url_key}`
+    const url = `${MESSAGES_URL}/${url_key}`
     return this.http.get<MessageItemInterface[]>(url, {
-      headers: this.headers
+      headers
     }).pipe(map(res => res))
   }
 
   getUsers(url_key: string): Observable<UserItemInterface[]> {
-    const url = `http://217.182.75.24:8000/user/${url_key}`
+    const url = `${USERS_URL}/${url_key}`
     return this.http.get<UserItemInterface[]>(url, {
-      headers: this.headers
+      headers
     }).pipe(map(res => res))
   }
 
-  getChatData(url_key: string): Observable<ChatItem> {
-    const url = `http://217.182.75.24:8000/chats/${url_key}`
-    return this.http.get<ChatItem>(url, {headers: this.headers}).pipe(map(res => res))
+  getChatData({url_key}: { url_key: string }): Observable<ChatItem> {
+    const url = `${CHATS_URL}/${url_key}`
+    return this.http.get<ChatItem>(url, {headers}).pipe(map(res => res))
   }
 
   createNewUser(newUserData: NewUserInterface): Observable<UserItemInterface> {
-    const url = `http://217.182.75.24:8000/user`
-    return this.http.post<UserItemInterface>(url, newUserData, {
-      headers: this.headers
+    return this.http.post<UserItemInterface>(USERS_URL, newUserData, {
+      headers
     }).pipe(map(res => res))
   }
 
   createNewMessage(newMessage: NewMessageInterface): Observable<MessageItemInterface> {
-    const url = `http://217.182.75.24:8000/message`
-    return this.http.post<MessageItemInterface>(url, newMessage, {
-      headers: this.headers
+    return this.http.post<MessageItemInterface>(MESSAGES_URL, newMessage, {
+      headers
     }).pipe(map(res => res))
   }
 

@@ -4,18 +4,18 @@ import {authActions} from "./actions";
 
 const initialState: AuthStateInterface = {
   isSubmitting: false,
-  token: ''
+  token: localStorage.getItem('token') || ''
 }
 
 const authFeature = createFeature({
   name: 'auth',
   reducer: createReducer(
     initialState,
-    on(authActions.login, (state: AuthStateInterface) => ({...state, isSubmitting: true})),
+    on(authActions.login, (state) => ({...state, isSubmitting: true})),
     on(authActions.loginFailure, (state) => ({...state, isSubmitting: false})),
-    on(authActions.loginSuccess, (state, x) => ({...state, isSubmitting: false})
-    )
+    on(authActions.loginSuccess, (state, action) => ({...state, isSubmitting: false, token: action.token})),
+    on(authActions.logout, state => ({...state, token: ''}))
   )
 })
 
-export const {name: authFeatureKey, reducer: authReducer, selectIsSubmitting} = authFeature
+export const {name: authFeatureKey, reducer: authReducer, selectIsSubmitting, selectToken} = authFeature

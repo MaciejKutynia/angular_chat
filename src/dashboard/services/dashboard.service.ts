@@ -2,6 +2,8 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {map, Observable} from "rxjs";
 import {ChatItem} from "../interfaces/chat.interface";
+import {CHATS_URL, headers} from "../../utils";
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,10 +12,10 @@ export class DashboardService {
   constructor(private http: HttpClient) {
   }
 
+
   getChats(): Observable<ChatItem[]> {
-    const token = localStorage.getItem("token");
-    const url = 'http://217.182.75.24:8000/chats'
-    return this.http.get<ChatItem[]>(url, {
+    const token = localStorage.getItem('token')
+    return this.http.get<ChatItem[]>(CHATS_URL, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -21,12 +23,8 @@ export class DashboardService {
   }
 
   createNewChat(name: string): Observable<ChatItem> {
-    const token = localStorage.getItem("token");
-    const url = 'http://217.182.75.24:8000/chats'
-    return this.http.post<ChatItem>(url, {name}, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+    return this.http.post<ChatItem>(CHATS_URL, {name}, {
+      headers
     }).pipe(map(res => res))
   }
 }
