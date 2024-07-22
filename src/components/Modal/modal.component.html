@@ -1,6 +1,8 @@
-<div [ngClass]="isVisible ? '' : 'hidden'" class="rounded-lg border-gray-500 fixed top-1/2 left-1/2 max-w-full min-h-[30vh] border -translate-x-1/2 -translate-y-1/2 md:max-w-[50%] md:min-h-[10rem]">
+<div [ngClass]="isVisible ? '' : 'hidden'"
+     class="bg-white rounded-lg border-gray-500 fixed top-1/2 left-1/2 max-w-full min-h-[30vh] border -translate-x-1/2 -translate-y-1/2 md:max-w-[50%] md:min-h-[10rem]">
   <div class="relative w-full h-[3rem]">
-    <button class="absolute right-1 cursor-pointer w-max h-max p-2 text-[1.5rem]" (click)="closeHandler()">&times;</button>
+    <button class="absolute right-1 cursor-pointer w-max h-max p-2 text-[1.5rem]" (click)="closeHandler()">&times;
+    </button>
   </div>
 
   <div class="w-full px-4">
