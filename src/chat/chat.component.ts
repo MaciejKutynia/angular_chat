@@ -84,6 +84,7 @@ export class ChatComponent implements OnInit {
       const messages = []
       for (const message of res) {
         const user = this.users.find(user => user.id === message.user_id)
+        if (!user) continue;
         messages.push({
           ...message,
           user_index: this.users.findIndex(user => user.id === message.user_id),
