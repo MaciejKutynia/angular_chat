@@ -7,7 +7,6 @@ import {CommonModule} from "@angular/common";
 import {selectChatData} from "./store/reducers";
 import {filter} from "rxjs";
 import {appActions} from "./store/actions";
-import {isRoot} from "@angular/compiler-cli";
 import {authActions} from "../auth/store/actions";
 
 @Component({

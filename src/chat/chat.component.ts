@@ -77,7 +77,10 @@ export class ChatComponent implements OnInit {
   }
 
   async getMessages() {
-    this.chatService.getMessages(this.url_key).subscribe(res => {
+    this.chatService.getMessages(this.url_key).subscribe(async res => {
+      if (!this.users.length) {
+        await this.getUsers()
+      }
       const messages = []
       for (const message of res) {
         const user = this.users.find(user => user.id === message.user_id)

@@ -49,7 +49,9 @@ export class DashboardComponent implements OnInit {
   }
 
   async submit() {
-    this.dashboardService.createNewChat(this.newChat.value.name).subscribe(res => {
+    this.dashboardService.createNewChat(this.newChat.value.name).subscribe((res) => {
+      this.chats.push(res);
+      this.handleModalVisible(false)
     })
   }
 }
