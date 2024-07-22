@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from "@angular/core";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ModalComponent} from "../components/Modal/modal.component";
 import {CommonModule} from "@angular/common";
@@ -7,7 +7,6 @@ import {ChatService} from "./services/chat.service";
 import {MessageItemInterface, UserItemInterface} from "./interfaces/chat.interface";
 import {ChatItem} from "../dashboard/interfaces/chat.interface";
 import {Store} from "@ngrx/store";
-import {selectChatData} from "../app/store/reducers";
 import {appActions} from "../app/store/actions";
 
 @Component({
@@ -16,7 +15,9 @@ import {appActions} from "../app/store/actions";
   standalone: true,
   templateUrl: './chat.component.html'
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewInit {
+
+  @ViewChild('messageContainer') private messageContainer!: ElementRef;
 
   newMessage: FormGroup;
   newUser: FormGroup;
@@ -58,7 +59,7 @@ export class ChatComponent implements OnInit {
       user_id: this.selectedUser?.id,
       url_key: this.url_key
     }).subscribe(res => {
-      this.messages.push(res)
+      this.getMessages()
     })
     this.newMessage.get('content')?.reset()
   }
@@ -92,7 +93,17 @@ export class ChatComponent implements OnInit {
         })
       }
       this.messages = messages;
+      setTimeout(() => {
+        this.messageContainer.nativeElement.scrollTo({
+          behavior: 'smooth',
+          top: this.messageContainer.nativeElement.scrollHeight
+        })
+      }, 1000)
     })
+  }
+
+  ngAfterViewInit() {
+    console.log(this.messages)
   }
 
   async getChat() {

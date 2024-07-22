@@ -10,7 +10,7 @@
 </chat-modal>
 
 <main class="wrapper">
-  <section class="messages">
+  <section #messageContainer class="messages">
     <div *ngFor="let message of messages" [ngClass]="message.user_index ? 'ml-auto' : ''"
          class="md:w-[25rem] min-h-[15rem] w-[85%] mb-4">
       <p [ngClass]="message.user_index ? 'bg-gray-400 first':'bg-gray-300 second'"
