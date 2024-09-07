@@ -1,4 +1,4 @@
-export const baseApi = 'http://217.182.75.241:5000'
+export const baseApi = 'https://chatapi.mkwsieci.pl'
 
 export const CHATS_URL = `${baseApi}/chats`;
 export const AUTH_URL = `${baseApi}/auth`;
