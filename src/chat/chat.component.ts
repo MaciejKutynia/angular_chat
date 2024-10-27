@@ -68,6 +68,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.chatService.createNewUser({...this.newUser.value, url_key: this.url_key}).subscribe(res => {
       this.users.push(res)
     })
+    this.newUser.get('name')?.reset()
     this.handleModalVisible(false)
   }
 
@@ -118,8 +119,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
       this.url_key = params.get('id')!
     })
     this.getChat().then(() => {
-      this.getUsers().then((res) => {
-        this.getMessages()
+      this.getUsers().then(async () => {
+        await this.getMessages()
       })
     })
 

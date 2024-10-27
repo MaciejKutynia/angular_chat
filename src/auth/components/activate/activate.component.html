@@ -1,0 +1,27 @@
+<form class=" items-center flex-col justify-center flex min-h-screen w-full gap-8" (submit)="onSubmit($event)">
+  <h2 class="text-3xl">Podaj kod aktywacyjny</h2>
+  <div class="flex gap-2">
+    <input
+      #input
+      (focus)="disableIsSubmitting()"
+      [name]="'code_'+char"
+      (keydown)="onKeyDown($event, char)"
+      maxlength="1"
+      (input)="onInputChange($event, char)"
+      [value]="codeArray[+char]"
+      (paste)="onPaste($event, char)"
+      class="rounded-lg border h-14 w-14 uppercase border-black text-4xl text-center p-2 leading-10 flex items-center justify-center"
+      [class]="isSubmitting && !codeArray[char] ? 'animate-bounce border-red-600':''"
+      *ngFor="let char of charsArray"/>
+  </div>
+  <span class="py-2 min-h-10"
+        [class]="authMessage.isError ? 'text-red-500':'text-green-500'">{{ authMessage.message }}</span>
+  <button class="border border-black rounded-lg py-4 px-8" [disabled]="isSubmitting"
+          [class]="isSubmitting ? 'opacity-45':''">
+    Aktywuj
+  </button>
+  <button (click)="sendCodeAgain()" [disabled]="isCodeSendingDisabled" [class]="isCodeSendingDisabled ? 'opacity-40':''"
+          type="button">Wyślij kod ponownie
+  </button>
+  <span class="h-6 -mt-4">{{ isCodeSendingDisabled ? formatTime(timer) : '' }}</span>
+</form>

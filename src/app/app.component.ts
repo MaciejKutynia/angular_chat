@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
   logout() {
     localStorage.removeItem('token')
     this.store.dispatch(authActions.logout());
-    this.router.navigate(['login'])
+    this.router.navigate(['auth'])
   }
 
   handleBackToList() {
@@ -36,29 +36,33 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    const token = localStorage.getItem('token') || ''
     this.router.events
       .pipe(
         filter((event): event is NavigationEnd => event instanceof NavigationEnd)
       )
       .subscribe((event: NavigationEnd) => {
-        if (event.urlAfterRedirects === '/') {
+        const {url, urlAfterRedirects} = event
+        if (urlAfterRedirects === '/') {
           this.isRoot = true
         } else {
           this.isRoot = false
         }
+        if (!token) {
+          this.router.navigate(['auth'])
+          return
+        }
+        if (!token) return;
       });
-    const token = localStorage.getItem('token')
-    if (!token) {
-      this.router.navigate(['login'])
-      return
-    }
+    if (!token) return;
     this.authService.verifyToken(token).subscribe(res => {
-      if (!res) {
-        this.router.navigate(['login'])
+      const {url} = this.router
+      if (!res && !url.includes('auth')) {
+        this.router.navigate(['auth'])
+        localStorage.removeItem('token')
         return;
       }
-      const currentUrl = this.router.url;
-      if (currentUrl === '/' || currentUrl === '/login') {
+      if (url === '/' || url === '/auth') {
         this.router.navigate(['']);
       }
     })

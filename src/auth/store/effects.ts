@@ -6,6 +6,6 @@ import {catchError, map, of, switchMap} from "rxjs";
 
 export const LoginEffect = createEffect((actions$ = inject(Actions), authService = inject(AuthService)) => actions$.pipe(
     ofType(authActions.login),
-    switchMap((req) => authService.login(req).pipe(map(({token}) => authActions.loginSuccess({token})), catchError(() => of(authActions.loginFailure()))))
+    switchMap((req) => authService.login(req).pipe(map(({body: token}) => authActions.loginSuccess({token})), catchError(() => of(authActions.loginFailure()))))
   ),
   {functional: true})

@@ -1,5 +1,5 @@
 <header *ngIf="isToken$|async"
-        class="h-[5rem] border-bottom-1 border border-black w-full flex items-center px-4 bg-white">
+        class="h-[5rem] border-bottom-1 border border-black w-full flex items-center px-4 bg-white justify-between">
   <button *ngIf="!isRoot" (click)="handleBackToList()">
     <img src="assets/images/back.svg" alt="go back" class="h-[36px]"/>
   </button>
